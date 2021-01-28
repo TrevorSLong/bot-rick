@@ -9,7 +9,7 @@ import random
 
 from discord.ext import commands
 client = discord.Client()
-channel = client.get_channel(ADD_WELCOME_CHANNEL_ID)
+channel = client.get_channel(ADD_WELCOME_CHANNEL)
 
 intents = discord.Intents.all()
 intents.members = True
@@ -77,8 +77,24 @@ async def on_member_join(member):
     await member.create_dm()
     await member.dm_channel.send(f'Hi {member.name}, welcome to my Froopyland! Please read and follow the rules and agree to get in. Afterwards, go to the Rules & Roles page to choose a role!')
     print("Sent message to " + member.name)
-    channel = client.get_channel(ADD_WELCOME_CHANNEL_ID)
-    await channel.send(f'Hello {member.name}, welcome to Froopyland!')
+    channel = client.get_channel(ADD_WELCOME_CHANNEL)
+    
+    welcomemessages = [
+        f'Boom! Big reveal! I turned myself into a pickle! Oh, also {member.name} is here.',
+        f'Ill tell you how I feel about school, {member.name}: Its a waste of time. Bunch of people runnin around bumpin into each other, got a guy up front says, 2 + 2, and the people in the back say, 4. Then the bell rings and they give you a carton of milk and a piece of paper that says you can go take a dump or somethin. I mean, its not a place for smart people, {member.name}. I know thats not a popular opinion, but thats my two cents on the issue.',
+        f'You gotta do it for Grandpa, {member.name}. You gotta put these seeds inside your butt.',
+        f'Nobody exists on purpose. Nobody belongs anywhere. Everybodys gonna die. Come watch TV {member.name}.',
+        f'SHOW ME WHAT YOU GOT {member.name}!',
+        ]
+    randomwelcome = random.choice(welcomemessages)
+    await channel.send(randomwelcome)
+    print("Sent message about " + member.name + " to #Federation_Updates")
+
+#Public Leave message
+@client.event
+async def on_member_remove(member):
+    channel = client.get_channel(ADD_WELCOME_CHANNEL)
+    await channel.send(f'Looks like {member.name} decided to leave, good riddance.')
     print("Sent message about " + member.name + " to #Federation_Updates")
 
 client.run('ADD_TOKEN')
