@@ -23,15 +23,14 @@ import random
 from dotenv import load_dotenv
 
 load_dotenv()
-TOKEN = os.getenv("DISCORD_TOKEN") #Grabs bot token from .env file
+TOKEN = os.getenv('DISCORD_TOKEN') #Grabs bot token from .env file
 print("Logging in with Bot Token " + TOKEN)
-WELCOMEID = os.getenv("WELCOME_ID") #Grabs welcome channel ID from .env file
-print("Using welcome channel ID " + WELCOMEID)
+WELCOME_ID = os.getenv('WELCOME_ID') #Grabs welcome channel ID from .env file
+print("Using welcome channel ID " + WELCOME_ID)
 
 #Import Discord commands and set channels (My code doesn't really use this)
 from discord.ext import commands
 client = discord.Client()
-channel = client.get_channel(WELCOMEID)
 
 #Declare Discord intents (To detect when people join/leave)
 intents = discord.Intents.all()
@@ -60,7 +59,7 @@ async def on_ready():
     
     print('Connected to bot: {}'.format(client.user.name))
     print('Bot ID: {}'.format(client.user.id))
-
+    
 #Ping (not working)
 @client.event
 async def on_message(message):
@@ -100,7 +99,7 @@ async def on_member_join(member):
     newUDM4 = f'Here is the link for our Steam group if youd like to join:\nhttps://steamcommunity.com/groups/froopy_land'
     await member.dm_channel.send(newUDM1 + '\n' + newUDM2 + '\n' + newUDM3 + '\n' + newUDM4)
     print("Sent message to " + member.name)
-    channel = client.get_channel(WELCOMEID)
+    channel = client.get_channel(int(WELCOME_ID))
     
     welcomemessages = [
         f'(WEL MSG) Boom! Big reveal! I turned myself into a pickle! Oh, also {member.name} is here.',
@@ -118,7 +117,7 @@ async def on_member_join(member):
 #Public Leave message (working)
 @client.event
 async def on_member_remove(member):
-    channel = client.get_channel(WELCOMEID)
+    channel = client.get_channel(int(WELCOME_ID))
     await channel.send(f'Looks like {member.name} decided to leave, good riddance.')
     print("Sent message about " + member.name + " to #Federation_Updates")
 
