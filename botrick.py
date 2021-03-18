@@ -1,3 +1,16 @@
+#Bot Rick
+#-------------------------------------------------
+#Discord bot for welcoming and random messages
+#Created by DroTron (Trevor L)
+#https://github.com/DroTron/bot-rick
+#-------------------------------------------------
+#This code may be used to help you build your own bot or to run on your own server
+#Do not use my code for profit
+#For help go to https://realpython.com/how-to-make-a-discord-bot-python/
+#Have fun!
+#-------------------------------------------------
+
+#Import modules needed to run script
 import discord
 import os
 import time
@@ -10,14 +23,17 @@ import random
 from dotenv import load_dotenv
 
 load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
-WELCOMEID = os.getenv('WELCOME_ID')
+TOKEN = os.getenv("DISCORD_TOKEN") #Grabs bot token from .env file
+print("Logging in with Bot Token " + TOKEN)
+WELCOMEID = os.getenv("WELCOME_ID") #Grabs welcome channel ID from .env file
+print("Using welcome channel ID " + WELCOMEID)
 
+#Import Discord commands and set channels (My code doesn't really use this)
 from discord.ext import commands
 client = discord.Client()
 channel = client.get_channel(WELCOMEID)
 
-
+#Declare Discord intents (To detect when people join/leave)
 intents = discord.Intents.all()
 intents.members = True
 intents.typing = True
@@ -25,9 +41,10 @@ intents.presences = True
 client = discord.Client(intents=intents)
 bot = commands.Bot(command_prefix='$', intents=intents)
 
+#Probably useless but not getting rid of it
 GUILD = 'Froopyland'
 
-#List online members
+#List online members (not working)
 @client.event
 async def on_message(message):
     if message.content.startswith('$member'):
@@ -36,7 +53,7 @@ async def on_message(message):
                 print(member) # or do whatever you wish with the member detail
 
 
-#Changes bots status
+#Changes bots status (working)
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='Interdimensional Cable'))
@@ -44,7 +61,7 @@ async def on_ready():
     print('Connected to bot: {}'.format(client.user.name))
     print('Bot ID: {}'.format(client.user.id))
 
-#Ping
+#Ping (not working)
 @client.event
 async def on_message(message):
     if message.author == client.user:
@@ -53,7 +70,7 @@ async def on_message(message):
     if message.content.startswith('$ping'): #ping
         await message.channel.send(f'🏓 Pong! {round(bot.latency * 1000)}ms')
 
-#Catch phrases
+#Catch phrases (working)
 @client.event
 async def on_message(message):
     if message.author == client.user:
@@ -72,7 +89,7 @@ async def on_message(message):
         response = random.choice(quotes)
         await message.channel.send(response)
 
-#Public Welcome
+#Public Welcome (working)
 @client.event
 async def on_member_join(member):
     print("Recognized that " + member.name + " joined")
@@ -98,7 +115,7 @@ async def on_member_join(member):
     await channel.send(randomwelcome)
     print("Sent message about " + member.name + " to #Federation_Updates")
 
-#Public Leave message
+#Public Leave message (working)
 @client.event
 async def on_member_remove(member):
     channel = client.get_channel(WELCOMEID)
