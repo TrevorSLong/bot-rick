@@ -12,6 +12,24 @@ This repository contains a .py file that connects to a Discord bot and has the f
 #### More to come
    * There is a few bits of non-functional code that is work in progress and should work soon
    
+# Bot-Rick-2.0
+This file is 90% similar to the one above but everything was changed to using bot.event and bot.command instead of client. This allows new commands but also caused problems with some of the old functionality. Below the functionality of this bot is listed.
+
+#### Welcome message
+   * Welcomes new members into the server by name with a random welcome message
+#### Welcome DM
+   * Welcomes new members into the server with a DM
+#### Chat response
+   * Responds to hello with a NOT RANDOM TV qoute
+#### Changes bot status
+   * Rick listens to snake jazz in the status (this can easily be changed)
+#### Announcements
+   * $annouce will send an annoucement to the servers welcome channel as specified in the .env file
+#### Ping
+   * $ping returns "Pong", eventually this should respond with latency
+#### Help
+   * $help is here and it doesn't help much but it could be formatted to be more helpful
+   
 # Git Command
 `git clone https://github.com/DroTron/bot-rick`
 *  Clones entire repository
