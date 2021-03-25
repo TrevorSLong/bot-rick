@@ -42,6 +42,7 @@ async def on_ready():
 
 #Anouncement command (working)
 @bot.command(pass_context=True,help="Announcement",brief="$announce_____ annouces to the servers welcome channel")
+@commands.has_role('Admin')
 async def announce(ctx,*,message,):
     embed = discord.Embed(title="Announcement",description=message,color=0x9208ea)
     embed.set_footer(text="-Bot Rick and the Froopyland Admin team")
