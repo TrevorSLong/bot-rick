@@ -41,15 +41,12 @@ async def on_ready():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="Snake Jazz"))
 
 #Anouncement command (working)
-@bot.command(pass_context=True,
-	help="Sends annoucements", # ADDS THIS VALUE TO THE $HELP PRINT MESSAGE.
-	brief="$annouce_____ sends an annoucement to the servers welcome channel as defined in the .env" # ADDS THIS VALUE TO THE $HELP MESSAGE.
-)
+@bot.command(pass_context=True,help="Announcement",brief="$announce_____ annouces to the servers welcome channel")
 async def announce(ctx,*,message,):
     embed = discord.Embed(title="Announcement",description=message,color=0x9208ea)
     embed.set_footer(text="-Bot Rick and the Froopyland Admin team")
     channel = bot.get_channel(int(WELCOME_ID))
-    await channel.send(ctx.message.channel,embed=embed)
+    await channel.send(embed=embed)
 	     
 #Public Welcome (working)
 @bot.event
