@@ -93,7 +93,7 @@ async def on_message(message):
 	brief="Prints pong back to the channel." # ADDS THIS VALUE TO THE $HELP MESSAGE.
 )
 async def ping(ctx):
-	await ctx.channel.send("pong") # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
+	await ctx.channel.send(f'🏓 Pong! {round(bot.latency * 1000)}ms') # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
 
 #Responds to $help (working)
 @bot.command(
