@@ -26,7 +26,7 @@ This file is 90% similar to the one above but everything was changed to using bo
 #### Announcements
    * $annouce will send an annoucement to the servers welcome channel as specified in the .env file
 #### Ping
-   * $ping returns "Pong", eventually this should respond with latency
+   * $ping returns "Pong", and the bots latency
 #### Help
    * $help is here and it doesn't help much but it could be formatted to be more helpful
    
