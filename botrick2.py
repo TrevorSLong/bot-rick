@@ -26,6 +26,8 @@ TOKEN = os.getenv('DISCORD_TOKEN') #Grabs bot token from .env file
 print("Logging in with Bot Token " + TOKEN)
 WELCOME_ID = os.getenv('WELCOME_ID') #Grabs welcome channel ID from .env file
 print("Using welcome channel ID " + WELCOME_ID)
+ADMIN_ID = os.getenv('ADMIN_CHANNEL') #Grabs admin channel ID from .env file
+print("Using admin channel ID " + ADMIN_ID)
 
 
 intents = discord.Intents.all()
@@ -39,15 +41,19 @@ GUILD = 'Froopyland'
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="Snake Jazz"))
+    channel = bot.get_channel(int(ADMIN_ID))
+    await channel.send(f'Bot Rick has successfully connected to Froopyland')
 
 #Anouncement command (working)
-@bot.command(pass_context=True,help="Announcement",brief="$announce_____ annouces to the servers welcome channel")
+@bot.command(pass_context=True,help="Announcement",brief="$announce_____ annouces to the servers welcome channel, signs with your user name")
 @commands.has_role('Admin')
 async def announce(ctx,*,message,):
     embed = discord.Embed(title="Announcement",description=message,color=0x9208ea)
-    embed.set_footer(text="-Bot Rick and the Froopyland Admin team")
+    embed.set_footer(text=f'-{ctx.message.author} and the Froopyland Admin team')
     channel = bot.get_channel(int(WELCOME_ID))
     await channel.send(embed=embed)
+    channel = bot.get_channel(int(ADMIN_ID))
+    await channel.send(f'{ctx.message.author} sent an announcement in Federation Updates')
 	     
 #Public Welcome (working)
 @bot.event
@@ -73,13 +79,17 @@ async def on_member_join(member):
         ]
     randomwelcome = random.choice(welcomemessages)
     await channel.send(randomwelcome)
+    channel = bot.get_channel(int(ADMIN_ID))
+    await channel.send(f'Bot Rick successfully sent welcome message and DM about {member.name} joining Froopyland.')
 
 #Public Leave message (working)
 @bot.event
 async def on_member_remove(member):
     channel = bot.get_channel(int(WELCOME_ID))
     await channel.send(f'Looks like {member.name} decided to leave, good riddance.')
-
+    channel = bot.get_channel(int(ADMIN_ID))
+    await channel.send(f'Bot Rick successfully sent leave message about {member.name} leaving Froopyland.')
+                       
 #Responds to hello (working)
 @bot.event
 async def on_message(message):
