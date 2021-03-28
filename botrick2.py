@@ -20,6 +20,8 @@ import logging
 import random
 from dotenv import load_dotenv
 from discord.ext import commands
+from discord import Member
+from discord.ext.commands import has_permissions, MissingPermissions
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN') #Grabs bot token from .env file
@@ -42,11 +44,11 @@ GUILD = 'Froopyland'
 async def on_ready():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="Snake Jazz"))
     channel = bot.get_channel(int(ADMIN_ID))
-    await channel.send(f'Bot Rick has successfully connected to Froopyland')
+    await channel.send(f'Bot Rick has successfully reconnected to Froopyland!')
 
 #Anouncement command (working)
-@bot.command(pass_context=True,help="Announcement",brief="$announce_____ annouces to the servers welcome channel, signs with your user name")
-@commands.has_role('Admin')
+@bot.command(name="announce",pass_context=True,help="Announcement",brief="$announce_____ annouces to the servers welcome channel, signs with your user name")
+@has_permissions(ban_members=True)
 async def announce(ctx,*,message,):
     embed = discord.Embed(title="Announcement",description=message,color=0x9208ea)
     embed.set_footer(text=f'-{ctx.message.author} and the Froopyland Admin team')
@@ -54,7 +56,12 @@ async def announce(ctx,*,message,):
     await channel.send(embed=embed)
     channel = bot.get_channel(int(ADMIN_ID))
     await channel.send(f'{ctx.message.author} sent an announcement in Federation Updates')
-	     
+
+@announce.error
+async def announce_error(ctx, error):
+    if isinstance(error, MissingPermissions):
+        await ctx.send(f'Sorry {ctx.message.author}, you do not have permission to announce.')
+
 #Public Welcome (working)
 @bot.event
 async def on_member_join(member):
