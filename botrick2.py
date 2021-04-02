@@ -18,6 +18,7 @@ import smtplib
 import asyncio
 import logging
 import random
+import json
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord import Member
@@ -37,7 +38,37 @@ intents.members = True
 intents.typing = True
 intents.presences = True
 bot = commands.Bot(command_prefix="$",intents= intents)
-GUILD = 'Froopyland'
+
+#Adds server to json database on bot server join
+@bot.event
+async def on_guild_join(guild):
+    #loads json file to dictionary
+    with open("botrick.json", "r") as f:
+        guildInfo = json.load(f)
+
+    guildInfo[guild.id] = guild.text_channels[0] #sets key to guilds id and value to top textchannel
+    
+    #writes dictionary to json file
+    with open("botrick.json", "w") as f:
+        json.dump(guildInfo, f)
+
+#Allows for the welcome channel to be changed
+@bot.command()
+async def welcomeMessage(ctx):
+    with open("botrick.json", "r") as f:
+        guildInfo = json.load(f)
+
+    guildInfo[ctx.message.guild.id] = ctx.message.channel.id #sets channel to send message to as the channel the command was sent to
+
+    with open("botrick.json", "w") as f:
+        json.dump(guildInfo, f)
+
+
+#with open("filename.json", "r"):
+#    guildInfo = json.load(f)
+
+#channnel = guildInfo[ctx.message.guild.id]
+
 
 #Changes bot status (working)
 @bot.event
