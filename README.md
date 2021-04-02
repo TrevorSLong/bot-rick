@@ -29,6 +29,8 @@ This file is 90% similar to the one above but everything was changed to using bo
    * $ping returns "Pong", and the bots latency
 #### Help
    * $help is here and it doesn't help much but it could be formatted to be more helpful
+#### BBYInStock
+   * $bbyinstock sends a message to two channels defined in the .env that has a message and links to RTX3000 at Best Buy. The goal is so that if an Admin or Mod sees RTX3000 in stock, they can easily message stock channels with links.
    
 # Git Command
 `git clone https://github.com/DroTron/bot-rick`
