@@ -18,6 +18,7 @@ import smtplib
 import asyncio
 import logging
 import random
+import json
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord import Member
@@ -30,6 +31,10 @@ WELCOME_ID = os.getenv('WELCOME_ID') #Grabs welcome channel ID from .env file
 print("Using welcome channel ID " + WELCOME_ID)
 ADMIN_ID = os.getenv('ADMIN_CHANNEL') #Grabs admin channel ID from .env file
 print("Using admin channel ID " + ADMIN_ID)
+C3080_ID = os.getenv('3080_CHANNEL') #Grabs admin channel ID from .env file
+print("Using 3080 channel ID " + ADMIN_ID)
+C3070_ID = os.getenv('3070_CHANNEL') #Grabs admin channel ID from .env file
+print("Using 3070 channel ID " + ADMIN_ID)
 
 
 intents = discord.Intents.all()
@@ -37,7 +42,6 @@ intents.members = True
 intents.typing = True
 intents.presences = True
 bot = commands.Bot(command_prefix="$",intents= intents)
-GUILD = 'Froopyland'
 
 #Changes bot status (working)
 @bot.event
@@ -61,6 +65,20 @@ async def announce(ctx,*,message,):
 async def announce_error(ctx, error):
     if isinstance(error, MissingPermissions):
         await ctx.send(f'Sorry {ctx.message.author}, you do not have permission to announce.')
+
+#3080/3070 stock announcement (manually announce in multiple channels that something happened with one command)
+@bot.command(name="bbyinstock",pass_context=True,help="BBYInStock",brief="$bbyinstock sends an announcement in 3070/3080 channels that best buy has stock of 3070/3080, to be triggered manually by Admin or Mod")
+@has_permissions(kick_members=True)
+async def bbyinstock(ctx):
+    channel = bot.get_channel(int(C3080_ID))
+    await channel.send(f'RTX3000 Cards in stock at Best Buy!\n[3080 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3080-10gb-gddr6x-pci-express-4-0-graphics-card-titanium-and-black/6429440.p?skuId=6429440)\n[3070 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442)\n[3060TI FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3060-ti-8gb-gddr6-pci-express-4-0-graphics-card-steel-and-black/6439402.p?skuId=6439402)\nThis stock announcement was manually sent by {ctx.message.author}')
+    channel = bot.get_channel(int(C3070_ID))
+    await channel.send(f'RTX3000 Cards in stock at Best Buy!\n[3080 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3080-10gb-gddr6x-pci-express-4-0-graphics-card-titanium-and-black/6429440.p?skuId=6429440)\n[3070 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442)\n[3060TI FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3060-ti-8gb-gddr6-pci-express-4-0-graphics-card-steel-and-black/6439402.p?skuId=6439402)\nThis stock announcement was manually sent by {ctx.message.author}')
+
+@announce.error
+async def announce_error(ctx, error):
+    if isinstance(error, MissingPermissions):
+        await ctx.send(f'Sorry {ctx.message.author}, you do not have permission to announce RTX3000 stock.')
 
 #Public Welcome (working)
 @bot.event
