@@ -1,4 +1,4 @@
-# Bot-Rick - Depreciated
+# Bot-Rick - Deprecated
 This repository contains a .py file that connects to a Discord bot and has the functionality listed below, note that the .env file will need the welcome channel ID (which can be obtained using developer mode in the app) and the token of the bot that you create in the Discord developer portal. This is all working as of 3/17/21 using Python 3.9 and discord.py 1.6. Please do not use my code to make a profit. If you would like to look at it and learn from it or modify it to use on your own server you are more then welcome to do so. I referenced `https://realpython.com/how-to-make-a-discord-bot-python/` to start this code and make the bot in the developer portal.
 
 #### Updated version
